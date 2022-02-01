@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 17:12:28 by jforner           #+#    #+#             */
-/*   Updated: 2022/01/14 19:09:16 by jforner          ###   ########.fr       */
+/*   Updated: 2022/01/28 11:05:46 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,19 @@ void	ft_lstadd_front(t_list **alst, t_list *new)
 {
 	new->next = alst[0];
 	alst[0] = new;
+}
+
+int	ft_lstprint(t_list *lst, char chr)
+{
+	int		i;
+
+	i = 0;
+	while (lst)
+	{
+		printf("List %c :\t%d\n", chr, lst->content);
+		i++;
+		lst = lst->next;
+	}
+	printf("=======\n");
+	return (i);
 }

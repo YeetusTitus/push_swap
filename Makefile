@@ -1,4 +1,5 @@
-SRCS = ft_puterror.c parse_utils.c parse.c utils.c listfunctions.c createlist.c
+SRCS = ft_puterror.c parse_utils.c parse.c utils.c listfunctions.c createlist.c pscommand.c \
+pscommand2.c core.c testing.c insertion.c insertion2.c
 
 MAIN = main.c
 
