@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:18:26 by jforner           #+#    #+#             */
-/*   Updated: 2022/02/01 17:22:19 by jforner          ###   ########.fr       */
+/*   Updated: 2022/02/02 18:21:28 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		inser_1h(t_list **list, int maxlen);
 
 //insertion 2
 int		*createplace(t_list **l, int len);
-int		createplace2(t_list **l, int *array, int i);
-int		determineplace(int *array, int src);
+void	createplace2(int **array, int len);
+int		determineplace(int *array, int src, t_list **ls);
 // int		inser_2h(t_list **list, int place, int **conta);
 #endif

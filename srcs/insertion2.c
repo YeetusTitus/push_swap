@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:00:38 by jforner           #+#    #+#             */
-/*   Updated: 2022/02/01 17:26:54 by jforner          ###   ########.fr       */
+/*   Updated: 2022/02/02 18:27:13 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,36 @@ int	*createplace(t_list **l, int len)
 	array = (int *)malloc(len * sizeof(int));
 	i = -1;
 	while (++i < len)
-		array[i] = -2147483648;
-	i = -1;
-	while (++i < len)
-		array[i] = createplace2(l, array, i);
+		array[i] = place_list(l[1], i)->content;
+	createplace2(&array, len);
 	return (array);
 }
 
-int	createplace2(t_list **l, int *array, int i)
+void	createplace2(int **array, int len)
 {
-	int	k;
-	int	j;
-	int	max;
+	int	i;
+	int	tiddy;
+	int	temp;
 
-	k = -1;
-	max = -2147483648;
-	while (++k < ft_lstsize(l[1]))
+	tiddy = 0;
+	while (!tiddy)
 	{
-		j = -1;
-		while (++j <= i)
-			if ((max > array[j] || (array[j] == -2147483648
-						&& max == -2147483648))
-				&& max < place_list(l[1], k)->content)
-				max = place_list(l[1], k)->content;
+		i = -1;
+		tiddy = 1;
+		while (++i < len - 1)
+		{
+			if (array[0][i] < array[0][i + 1])
+			{
+				temp = array[0][i + 1];
+				array[0][i + 1] = array[0][i];
+				array[0][i] = temp;
+				tiddy = 0;
+			}
+		}
 	}
-	printf("max :%d\n", max);
-	return (max);
 }
 
-int	determineplace(int *array, int src)
+int	determineplace(int *array, int src, t_list **ls)
 {
 	int	place;
 
@@ -58,9 +59,9 @@ int	determineplace(int *array, int src)
 		if (src > array[place])
 			break ;
 	}
-	if (src > array[(ft_strlen((char *)array) + 1) / 2])
+	if (src > array[(ft_lstsize(ls[1]) + 1) / 2])
 		place *= (-1);
-	else if (src < array[(ft_strlen((char *)array) + 1) / 2])
-		place = ft_strlen((char *)array) - place;
+	else if (src < array[(ft_lstsize(ls[1]) + 1) / 2])
+		place = ft_lstsize(ls[1]) - place;
 	return (place);
 }

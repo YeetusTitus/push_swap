@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:00:38 by jforner           #+#    #+#             */
-/*   Updated: 2022/02/01 16:51:23 by jforner          ###   ########.fr       */
+/*   Updated: 2022/02/02 18:27:07 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	sortingb1(t_list **ls, int src, int *ar)
 	static int	i = 0;
 	int			place;
 
-	place = determineplace(ar, src);
+	place = determineplace(ar, src, ls);
 	while (ls[1] != NULL && ft_lstsize(ls[1]) >= 2)
 	{
 		if (place > i)
@@ -44,19 +44,19 @@ int	sortingb1(t_list **ls, int src, int *ar)
 		}
 		else
 		{
-			if (src < ar[(ft_strlen((char *)ar) + 1) / 2])
-				i++;
+			if (src < ar[(ft_lstsize(ls[1]) + 1) / 2])
+				return (1);
 			break ;
 		}
-	// ft_putstr_fd("------\n", 1);
-	// ft_lstprint(ls[1], 'B');
-	// ft_putchar_fd('\n', 1);
+	ft_putstr_fd("------\n", 1);
+	ft_lstprint(ls[1], 'B');
+	ft_putchar_fd('\n', 1);
 	}
-	// printf("Place = %d\ti = %d\tar half = %d\n",place, i, ar[(ft_strlen((char *)ar) + 1) / 2]);
-	// ft_putstr_fd("=====\n", 1);
-	// ft_lstprint(ls[1], 'B');
-	// ft_putchar_fd('\n', 1);
-	return (place - i);
+	printf("Place = %d\ti = %d\tar half = %d\n",place, i, ar[ft_lstsize(ls[1]) / 2]);
+	ft_putstr_fd("=====\n", 1);
+	ft_lstprint(ls[1], 'B');
+	ft_putchar_fd('\n', 1);
+	return (0);
 }
 
 int	inser_1h(t_list **list, int maxlen)
