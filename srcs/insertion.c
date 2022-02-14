@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:00:38 by jforner           #+#    #+#             */
-/*   Updated: 2022/02/02 18:27:07 by jforner          ###   ########.fr       */
+/*   Updated: 2022/02/07 15:29:45 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,25 @@ t_list	*place_list(t_list *list, int place)
 	return (liste);
 }
 
+int	exitsb1(t_list **ls, int src, int *ar, int *i)
+{
+	if (src > ar[(ft_lstsize(ls[1])) / 2])
+	{
+		if (src < ls[1]->content && src > ls[1]->next->content)
+			return (1);
+		return (0);
+	}
+	i[0]++;
+	return (0);
+}
+
 int	sortingb1(t_list **ls, int src, int *ar)
 {
 	static int	i = 0;
 	int			place;
 
-	place = determineplace(ar, src, ls);
+	if (ft_lstsize(ls[1]) >= 2)
+		place = determineplace(ar, src, ls);
 	while (ls[1] != NULL && ft_lstsize(ls[1]) >= 2)
 	{
 		if (place > i)
@@ -39,34 +52,25 @@ int	sortingb1(t_list **ls, int src, int *ar)
 		}
 		else if (place < i && !(src > ls[1]->next->content && i <= 0))
 		{
-			ls[1] = rotate_ab(ls[1], 'b');
+			if ((ft_lstsize(ls[1]) == 2 && istidy(ls[1], 1))
+				|| ft_lstsize(ls[1]) > 2)
+				ls[1] = rotate_ab(ls[1], 'b');
 			i--;
 		}
 		else
-		{
-			if (src < ar[(ft_lstsize(ls[1]) + 1) / 2])
-				return (1);
-			break ;
-		}
-	ft_putstr_fd("------\n", 1);
-	ft_lstprint(ls[1], 'B');
-	ft_putchar_fd('\n', 1);
+			return (exitsb1(ls, src, ar, &i));
 	}
-	printf("Place = %d\ti = %d\tar half = %d\n",place, i, ar[ft_lstsize(ls[1]) / 2]);
-	ft_putstr_fd("=====\n", 1);
-	ft_lstprint(ls[1], 'B');
-	ft_putchar_fd('\n', 1);
+	if (ft_lstsize(ls[1]) == 1 && src < ls[1]->content)
+		return (1);
 	return (0);
 }
 
 int	inser_1h(t_list **list, int maxlen)
 {
 	static int	phase = 0;
-	static int	printo = 0;
 	int			*array;
 
-	printo++;
-	array = createplace(list, ft_lstsize(list[1]));
+	array = createplace(list[1], ft_lstsize(list[1]));
 	if (phase && !inser_test(list[0], 0))
 		swap_ss(&list[0], &list[1]);
 	else if (!inser_test(list[0], 0))
@@ -77,45 +81,30 @@ int	inser_1h(t_list **list, int maxlen)
 		&& ft_lstsize(list[0]) == maxlen)
 		return (0);
 	phase = sortingb1(list, (*list)->content, array);
-	push_ab(&list[0], &list[1], 'a');
+	push_ab(&list[0], &list[1], 'b');
 	free(array);
-	// printf("Tour %d :\n", printo);
-	// ft_lstprint(list[0], 'A');
-	// ft_lstprint(list[1], 'B');
-	// ft_putchar_fd('\n', 1);
 	return (1);
 }
-// int	inser_2h(t_list **list, int place, int **conta)
-// {
-// 	int			phase;
-// 	// int			count;
 
-// 	phase = 0;
-// 	// count = 0;
-// 	(*conta)[place] = place_list(*list, place)->content;
-// 	// if (place == 4)
-// 		// printf("0: %d\t1: %d\t2: %d\t3: %d\t4: %d\n",(*conta)[0],(*conta)[1],(*conta)[2],(*conta)[3],(*conta)[4]);
-// 	// ft_putchar_fd('\n', 1);
-// 	while (!istidy(*list, place - 1) || !inplace(*list, *conta, place))
-// 	{
-// 		if ( && phase <= 1)
-// 		{
-// 			*list = swap_ab(*list, 'a');
-// 			phase = 1;
-// 		}
-// 		else if (phase == 0 || phase == 2)
-// 			*list = rrotate_ab(*list, 'a');
-// 		else if (phase == 1 && )
-// 			*list = rotate_ab(*list, 'a');
-// 		else
-// 		{
-// 			// count -= 1;
-// 			phase = 2;
-// 		}
-// 		// count += 1;
-// 		// if (phase == 1)
-// 		// 	ft_putstr_fd("Phase 1\n", 1);
-// 		if (istidy(*list, ft_lstsize(*list)) && ft_lstsize(*list))
-// 			break ;
-// 	}
-// }
+void	inser_2h(t_list **list, int asize)
+{
+	if ((ft_lstsize(list[1]) > 1 && inser_test(list[1], 0)) && !is3ddy(list)
+		&& (ft_lstsize(list[1]) > 2
+			&& list[1]->content > place_list(list[1], 2)->content))
+		swap_ss(&list[0], &list[1]);
+	else if (!is3ddy(list))
+		list[0] = swap_ab(list[0], 'a');
+	else if ((ft_lstsize(list[1]) > 1 && inser_test(list[1], 0))
+		&& (ft_lstsize(list[1]) > 2
+			&& list[1]->content > place_list(list[1], 2)->content))
+		list[1] = swap_ab(list[1], 'b');
+	sortingb2(list);
+	if (list[1]->content > list[0]->content)
+	{
+		if (list[0]->next->content > list[1]->content)
+			list[0] = rotate_ab(list[0], 'a');
+		else
+			list[0] = rrotate_ab(list[0], 'a');
+	}
+	sortinga(list, asize);
+}

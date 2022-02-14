@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 17:15:16 by jforner           #+#    #+#             */
-/*   Updated: 2022/01/25 10:55:16 by jforner          ###   ########.fr       */
+/*   Updated: 2022/02/07 15:11:53 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,10 @@ int	istidy(t_list *list, int place)
 	while (liste->next != NULL && i <= place)
 	{
 		if (liste->next != NULL && liste->next->content < liste->content)
-		{
-			// printf("%d\n", i);
-			// ft_putstr_fd("No\n", 1);
 			return (0);
-		}
 		liste = liste->next;
 		i++;
 	}
-	// ft_putstr_fd("Yes\n", 1);
 	return (1);
 }
 
@@ -48,30 +43,6 @@ int	inser_test(t_list *list, int nbr)
 	return (1);
 }
 
-int	inplace(t_list *list, int *conta, int place)
-{
-	t_list	*liste;
-	int		i;
-	int		j;
-	int		test;
-
-	i = 0;
-	liste = list;
-	while (liste->next != NULL && i <= place)
-	{
-		test = 0;
-		j = -1;
-		while (++j <= place)
-			if (conta[j] == liste->content)
-				test = 1;
-		if (test == 0)
-			return (0);
-		liste = liste->next;
-		i++;
-	}
-	return (1);
-}
-
 int	ristidy(t_list *list, int place)
 {
 	t_list	*liste;
@@ -82,14 +53,22 @@ int	ristidy(t_list *list, int place)
 	while (liste->next != NULL && i <= place)
 	{
 		if (liste->next != NULL && liste->next->content > liste->content)
-		{
-			// printf("%d\n", i);
-			// ft_putstr_fd("No\n", 1);
 			return (0);
-		}
 		liste = liste->next;
 		i++;
 	}
-	// ft_putstr_fd("Yes\n", 1);
 	return (1);
+}
+
+int	is3ddy(t_list **list)
+{
+	if (inser_test(list[0], 0) && inser_test(list[0], 1))
+		return (1);
+	if (inser_test(list[0], 0)
+		&& list[0]->content > ft_lstlast(list[0])->content)
+		return (1);
+	if (list[0]->content > ft_lstlast(list[0])->content
+		&& inser_test(list[0], 1))
+		return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jforner <jforner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/14 17:46:39 by jforner           #+#    #+#             */
-/*   Updated: 2022/01/17 10:32:28 by jforner          ###   ########.fr       */
+/*   Updated: 2022/02/14 11:46:17 by jforner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,17 @@ int	ft_atoi(char *str)
 {
 	int	i;
 	int	nbr;
-	int	negatif;
 
 	i = -1;
 	nbr = 0;
-	negatif = 1;
 	while (++i < (int)ft_strlen(str))
 	{
 		nbr *= 10;
-		if (str[i] == '-')
-			negatif = -1;
-		else
+		if (str[i] >= '0' && str[i] <= '9')
 			nbr += (str[i] - '0');
 	}
-	nbr *= negatif;
+	if (str[0] == '-')
+		nbr *= (-1);
 	return (nbr);
 }
 
