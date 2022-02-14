@@ -1,2 +1,5 @@
 .vscode
 push_swap_tester
+*.py
+*.log
+checker
